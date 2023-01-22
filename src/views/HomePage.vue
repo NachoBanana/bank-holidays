@@ -2,33 +2,69 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Blank</ion-title>
+        <ion-title>Bank Holidays</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
+          <ion-title size="large">Bank Holidays</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+        <strong>Upcoming Irish Bank Holidays</strong>
+        <p>
+          Then next Irish bank holiday is:
+          <!-- <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://ionicframework.com/docs/components"
+            >UI Components</a
+          > -->
+          <ion-list>
+            <ion-card>
+              <ion-card-title>St. Brigid’s Day</ion-card-title>
+              <ion-card-content> Mon 6th Feb </ion-card-content>
+            </ion-card>
+          </ion-list>
+        </p>
+        <strong>Upcoming UK Bank Holiday</strong>
+        <p>
+          Then next UK bank holiday is:
+          <!-- <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://ionicframework.com/docs/components"
+            >UI Components</a
+          > -->
+          <ion-list>
+            <ion-card>
+              <ion-card-title>Good Friday</ion-card-title>
+              <ion-card-content> Fri 7th Apr </ion-card-content>
+            </ion-card>
+          </ion-list>
+        </p>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 </script>
 
 <style scoped>
 #container {
   text-align: center;
-  
+
   position: absolute;
   left: 0;
   right: 0;
@@ -44,9 +80,9 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue
 #container p {
   font-size: 16px;
   line-height: 22px;
-  
+
   color: #8c8c8c;
-  
+
   margin: 0;
 }
 
