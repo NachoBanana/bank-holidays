@@ -1,0 +1,7 @@
+{
+  "name": "bank-holidays",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
