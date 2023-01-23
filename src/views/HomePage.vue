@@ -2,48 +2,31 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Bank Holidays</ion-title>
+        <ion-title>Bank Holiday App</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Bank Holidays</ion-title>
+          <ion-title size="large">Bank Holiday App</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <div id="container">
-        <strong>Upcoming Irish Bank Holidays</strong>
+        <strong>Upcoming Bank Holidays</strong>
         <p>
-          Then next Irish bank holiday is:
-          <!-- <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://ionicframework.com/docs/components"
-            >UI Components</a
-          > -->
           <ion-list>
-            <ion-card>
-              <ion-card-title>St. Brigid’s Day</ion-card-title>
-              <ion-card-content> Mon 6th Feb </ion-card-content>
-            </ion-card>
-          </ion-list>
-        </p>
-        <strong>Upcoming UK Bank Holiday</strong>
-        <p>
-          Then next UK bank holiday is:
-          <!-- <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://ionicframework.com/docs/components"
-            >UI Components</a
-          > -->
-          <ion-list>
-            <ion-card>
-              <ion-card-title>Good Friday</ion-card-title>
-              <ion-card-content> Fri 7th Apr </ion-card-content>
-            </ion-card>
+            <ion-row v-for="day in bankHolidays" :key="day">
+              <ion-card>
+                <ion-card-subtitle>{{ day.id }} </ion-card-subtitle>
+                <ion-card-title>{{ day.name }}</ion-card-title>
+                <ion-card-content>
+                  {{ day.date?.toDateString() }} <br />
+                  {{ day.description }} for {{ day.country }}
+                </ion-card-content>
+              </ion-card>
+            </ion-row>
           </ion-list>
         </p>
       </div>
@@ -59,6 +42,9 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
+import { BankHoliday } from "@/types/index";
+import { getDummyData } from "@/dummy";
+const bankHolidays: BankHoliday[] = getDummyData(); // TODO: replace
 </script>
 
 <style scoped>
