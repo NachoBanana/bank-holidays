@@ -4,6 +4,6 @@ import HomePage from '@/views/HomePage.vue'
 describe('HomePage.vue', () => {
   it('renders home vue', () => {
     const wrapper = mount(HomePage)
-    expect(wrapper.text()).toMatch('Upcoming UK Bank Holiday')
+    expect(wrapper.text()).toMatch('Upcoming Bank Holidays')
   })
 })
