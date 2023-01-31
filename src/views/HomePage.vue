@@ -2,19 +2,19 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Bank Holiday App</ion-title>
+        <ion-title>Bank Holiday App {{}}</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Bank Holiday App</ion-title>
+          <ion-title size="large">Bank Holiday App {{}}</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <div id="container">
-        <strong>Upcoming Bank Holidays</strong>
+        <strong>Upcoming Bank Holidays {{}}</strong>
         <p>
           <ion-list>
             <ion-row v-for="day in bankHolidays" :key="day">
@@ -34,17 +34,17 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/vue";
-import { BankHoliday } from "@/types/index";
+<script lang="ts">
 import { getDummyData } from "@/dummy";
-const bankHolidays: BankHoliday[] = getDummyData(); // TODO: replace
+export default {
+  data() {
+    return {
+      bankHolidays: getDummyData(),
+    };
+  },
+  computed: {},
+  methods: {},
+};
 </script>
 
 <style scoped>
@@ -74,5 +74,20 @@ const bankHolidays: BankHoliday[] = getDummyData(); // TODO: replace
 
 #container a {
   text-decoration: none;
+}
+
+#past {
+  color: #ad0101;
+  background-color: aqua;
+}
+
+#present {
+  color: #df0f0f;
+  background-color: aqua;
+}
+
+#future {
+  color: #df0f0f;
+  background-color: aqua;
 }
 </style>
