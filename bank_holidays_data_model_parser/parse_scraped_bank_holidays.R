@@ -20,10 +20,8 @@ glimpse(dat)
 # For each bank holiday - calculate if the date has passed already
 dat <- dat %>% mutate(
   complete_date = as_date(paste0(date, "-", year), format="%d-%b-%Y")
-  ,day_of_the_week = wday(x=complete_date, label=TRUE, abbr=FALSE)
-  ,day_of_the_year = yday(x=complete_date)
-  ,today = today()
-  ,date_has_passed = complete_date < today
+dat <- dat %>% mutate(
+  complete_date = as_date(paste0(date, "-", year), format="%d-%b-%Y"),
 )
 
 # Calculate the next upcoming bank holiday - for each country
@@ -32,9 +30,6 @@ df_closest_bh_date_by_country <- dat %>%
   group_by(country) %>% 
   slice_min(complete_date) %>% 
   select(country,complete_date) %>% 
-  rename(closest_bh_date = complete_date)
-
-## join back to main data-set
 dat <-
   left_join(
     x = dat
@@ -43,6 +38,13 @@ dat <-
   )
 
 ## Create a Boolean representation of the closest data-set
+dat <-
+  left_join(
+    x = dat
+    ,y = df_closest_bh_date_by_country,
+    ,by = "country"
+  )
+
 dat <- dat %>%
   mutate(
     is_closest_bh_date = complete_date == closest_bh_date
@@ -60,3 +62,12 @@ close(con)
 # write data to disk in CSV format
 write_csv(dat,
           "./csv_data_output/bank_holidays_processed_csv.csv")
+json_dat <- toJSON(list(features = names(dat), values=dat), pretty = TRUE )
+
+
+con <- file("bank_holidays_processed_json.json")
+writeLines(json_dat, con)
+close(con)
+
+write_csv(dat,
+          "bank_holidays_processed_csv.csv")
