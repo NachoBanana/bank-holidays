@@ -2,37 +2,42 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Blank</ion-title>
+        <ion-title>Bank Holiday App yo</ion-title>
+        <CountrySelect />
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+        <strong>Upcoming Bank Holidays</strong>
+        <p>
+          <holiday-list />
+        </p>
       </div>
     </ion-content>
   </ion-page>
 </template>
-
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import CountrySelect from "@/components/CountrySelect.vue";
+import HolidayList from "@/components/HolidayList.vue";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 </script>
+
 
 <style scoped>
 #container {
   text-align: center;
-  
+
   position: absolute;
   left: 0;
   right: 0;
-  top: 50%;
+  top: 450%;
   transform: translateY(-50%);
 }
 
@@ -44,13 +49,28 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue
 #container p {
   font-size: 16px;
   line-height: 22px;
-  
+
   color: #8c8c8c;
-  
+
   margin: 0;
 }
 
 #container a {
   text-decoration: none;
+}
+
+#past {
+  color: #ad0101;
+  background-color: aqua;
+}
+
+#present {
+  color: #df0f0f;
+  background-color: aqua;
+}
+
+#future {
+  color: #df0f0f;
+  background-color: aqua;
 }
 </style>
