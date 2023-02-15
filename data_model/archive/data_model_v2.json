@@ -1,0 +1,18 @@
+[
+	{
+		"country": {
+			"id": "number",
+			"calendarId": "string",
+			"display_name": "string",
+			"holidays": [
+				{
+					"name":"string",
+					"date": {
+						"complete_date": "string",
+						"day_of_week": "number",
+					}
+				}
+			]
+		}
+	}
+]
