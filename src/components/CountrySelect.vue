@@ -7,9 +7,9 @@
         placeholder="Select country"
       >
         <ion-select-option
-          v-for="(country, index) in store.getCountries"
+          v-for="({ display_name }, index) in store.getCountries"
           :key="index"
-          >{{ country }}</ion-select-option
+          >{{ display_name }}</ion-select-option
         >
       </ion-select>
     </ion-item>
@@ -25,7 +25,7 @@ export default defineComponent({
   components: { IonItem, IonList, IonSelect, IonSelectOption },
   methods: {
     newCountrySelected(value: string) {
-      this.store.updateCountry(value);
+      this.store.updateBankHolidays(value);
     },
   },
   mounted() {
