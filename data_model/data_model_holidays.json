@@ -1,0 +1,10 @@
+{
+	"name": "string",
+	"display_name": "string",
+	"holidays": [
+		{
+			"name": "string",
+			"date": "string"
+		}
+	]
+}
