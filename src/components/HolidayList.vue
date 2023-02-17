@@ -1,13 +1,10 @@
 <template>
   <ion-list>
-    <ion-row v-for="day in store.getBankHolidayList" :key="day">
+    <ion-list-header>{{ store.getBankHolidays.display_name }}</ion-list-header>
+    <ion-row v-for="day in store.getBankHolidays.holidays" :key="day">
       <ion-card>
-        <ion-card-subtitle>{{ day.country }} </ion-card-subtitle>
-        <ion-card-title>{{ day.bank_holiday }}</ion-card-title>
-        <ion-card-content>
-          {{ day.date }} <br />
-          {{ day.year }} for {{ day.country }}
-        </ion-card-content>
+        <ion-card-title>{{ day.name }}</ion-card-title>
+        <ion-card-content> {{ day.date }} <br /> </ion-card-content>
       </ion-card>
     </ion-row>
   </ion-list>
