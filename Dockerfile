@@ -1,7 +1,7 @@
+FROM node as build
+
 ARG HOST_BACKEND
 ARG PORT_BACKEND
-
-FROM node as build
 
 WORKDIR /app
 
