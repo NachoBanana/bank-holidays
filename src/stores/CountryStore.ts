@@ -2,6 +2,10 @@ import { http } from "@/api";
 import { BankHolidays, Country } from "@/types/index";
 import { defineStore } from "pinia";
 
+const BACKEND_HOST = process.env.BACKEND_HOST || "localhost"
+const BACKEND_PORT = process.env.BACKEND_PORT || 8080
+const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}/v1`;
+
 export const useCountryStore = defineStore("CountryStore", {
     state: () => ({
         bankHolidays: {} as BankHolidays,
@@ -13,7 +17,7 @@ export const useCountryStore = defineStore("CountryStore", {
         async fetchDataForCountryList() {
             try {
                 this.loading = true;
-                this.countries = await http("http://localhost:8080/v1/countries");
+                this.countries = await http(`${BACKEND_URL}/countries`);
             } catch (error) {
                 if (typeof error === "string") {
                     this.err = error;
@@ -26,7 +30,7 @@ export const useCountryStore = defineStore("CountryStore", {
             try {
                 this.loading = true;
                 const search = this.countries.filter((e) => e.display_name === country)[0].name;
-                const bh = await http(`http://localhost:8080/v1/countries/${search}`);
+                const bh = await http(`${BACKEND_URL}/countries/${search}`);
                 this.bankHolidays = bh;
             } catch (error) {
                 if (typeof error === "string") {
@@ -45,5 +49,4 @@ export const useCountryStore = defineStore("CountryStore", {
         getError: state => state.err,
         getBankHolidays: state => state.bankHolidays
     }
-
 });
