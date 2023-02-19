@@ -2,8 +2,8 @@ import { http } from "@/api";
 import { BankHolidays, Country } from "@/types/index";
 import { defineStore } from "pinia";
 
-const BACKEND_HOST = process.env.BACKEND_HOST || "localhost"
-const BACKEND_PORT = process.env.BACKEND_PORT || 8080
+const BACKEND_HOST = process.env.HOST_BACKEND || "localhost"
+const BACKEND_PORT = process.env.PORT_BACKEND || 8080
 const BACKEND_URL = `http://${BACKEND_HOST}:${BACKEND_PORT}/v1`;
 
 export const useCountryStore = defineStore("CountryStore", {
