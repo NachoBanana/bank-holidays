@@ -30,4 +30,4 @@ jobs:
         go mod download
 
     - name: Build
-      run: go build -v api/
+      run: go build -v GOPATH/api/
