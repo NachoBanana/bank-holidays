@@ -1,8 +1,8 @@
-FROM golang:1.19.5-alpine
+FROM golang:1.20-buster
 
-WORKDIR /app
+WORKDIR /bank-holiday
 
-COPY ./ /app/
+COPY ./api ./
 RUN go mod download
 
 RUN go build -o /bank-holiday-be
