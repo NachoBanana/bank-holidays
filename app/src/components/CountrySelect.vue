@@ -4,7 +4,7 @@
       <ion-select
         interface="popover"
         @ionChange="newCountrySelected($event.detail.value)"
-        placeholder="Select country"
+        placeholder="Select a country"
       >
         <ion-select-option
           v-for="({ display_name }, index) in store.getCountries"

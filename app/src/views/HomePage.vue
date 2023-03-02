@@ -1,7 +1,10 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <IonBackButton :default-href="pageDefaultBackLink"></IonBackButton>
+        </ion-buttons>
         <ion-title>Bank Holiday App yo</ion-title>
         <CountrySelect />
       </ion-toolbar>
@@ -9,6 +12,7 @@
 
     <ion-content :fullscreen="true">
       <div id="container">
+        <slot />
         <strong>Upcoming Bank Holidays</strong>
         <p>
           <holiday-list />
@@ -17,7 +21,8 @@
     </ion-content>
   </ion-page>
 </template>
-<script setup lang="ts">
+
+<script lang="ts">
 import CountrySelect from "@/components/CountrySelect.vue";
 import HolidayList from "@/components/HolidayList.vue";
 import {
@@ -26,7 +31,23 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonButtons,
+  IonBackButton
 } from "@ionic/vue";
+
+export default {
+  props: ['pageTitle', 'pageDefaultBackLink'],
+  components: {
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    CountrySelect,
+    HolidayList,
+    IonButtons,
+    IonBackButton
+  }
+}
 </script>
 
 
@@ -73,4 +94,5 @@ import {
   color: #df0f0f;
   background-color: aqua;
 }
+
 </style>
