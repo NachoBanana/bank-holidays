@@ -1,9 +1,41 @@
 <template>
   <ion-page>
+
+    <h1>
+      <br/>
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+      Upcoming Bank Holidays in {{ store.getBankHolidays.display_name }}
+    </h1>
+
+    <br/><br/><br/><br/><br/><br/>
+
     <ion-list>
-      <ion-list-header>{{ store.getBankHolidays.display_name }}</ion-list-header>
+      <ion-list-header :fixed="true" class="ion-text-center">
+      </ion-list-header>
       
       <ion-grid :fixed="true" class="ion-text-center">
+        <ion-row>
+          <ion-col>
+            <ion-title>Date</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Day of week</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Holiday</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Year</ion-title>
+          </ion-col>
+        </ion-row>
+
+
         <ion-row v-for="day in store.getBankHolidays.holidays" :key="day">
           <ion-col class="ion-text-wrap">
             <ion-text>
@@ -20,11 +52,16 @@
             {{ getYearNumber(day.date) }}
           </ion-col>
         </ion-row>
+
       </ion-grid>
     </ion-list>
 
   </ion-page>
+
 </template>
+
+
+
 
 <script lang="ts">
 
@@ -41,6 +78,24 @@ export default defineComponent({
     IonGrid,
     IonCol,
     IonText
+  },
+  computed: {
+    get2022Holidays: function() {
+      return this.store.getBankHolidays.holidays.filter(function(u) {
+        return(u.date.startsWith("2022"));
+      })
+    },
+    get2023Holidays: function() {
+      return this.store.getBankHolidays.holidays.filter(function(u) {
+        return(u.date.startsWith("2023"));
+      })
+    },
+    get2024Holidays: function() {
+      return this.store.getBankHolidays.holidays.filter(function(u) {
+        return(u.date.startsWith("2024"));
+      })
+    },
+
   },
   methods: {
     getDayOfWeekString(date: string): string {
