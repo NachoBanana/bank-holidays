@@ -8,20 +8,21 @@ import (
 
 	endpoints "github.com/NachoBanana/bank-holiday-backend-go/cmd"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/sync/errgroup"
 )
 
-const PORT_API uint16 = 8080
-const PORT_FRONTEND uint16 = 8081
+const PORT uint16 = 8080
 const FRONTEND_DIR string = "./dist"
 
-func makeApiRouter() http.Handler {
+func main() {
 	router := gin.Default()
 	defaultCors := cors.Default()
+	staticMiddleware := static.Serve("/", static.LocalFile(FRONTEND_DIR, true))
 
 	// Mount middleware
 	router.Use(defaultCors)
+	router.Use(staticMiddleware)
 
 	// Group endpoints
 	baseGroup := router.Group("/v1/")
@@ -32,48 +33,14 @@ func makeApiRouter() http.Handler {
 		baseGroup.GET("/countries/:country", endpoints.GetCountry)
 	}
 
-	return router
-}
-
-func makeFrontendRouter() http.Handler {
-	router := gin.Default()
-	defaultCors := cors.Default()
-
-	// Mount middleware
-	router.Use(defaultCors)
-
-	router.StaticFS("/", gin.Dir(FRONTEND_DIR, true))
-
-	return router
-}
-
-func main() {
-	goGroup := errgroup.Group{}
-
-	apiRouter := makeApiRouter()
-	frontendRouter := makeFrontendRouter()
-
-	api := &http.Server{
-		Addr:         fmt.Sprintf(":%d", PORT_API),
-		Handler:      apiRouter,
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
-	}
-	frontend := &http.Server{
-		Addr:         fmt.Sprintf(":%d", PORT_FRONTEND),
-		Handler:      frontendRouter,
+	// Build server
+	server := &http.Server{
+		Addr:         fmt.Sprintf(":%d", PORT),
+		Handler:      router,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 
-	goGroup.Go(func() error {
-		return api.ListenAndServe()
-	})
-	goGroup.Go(func() error {
-		return frontend.ListenAndServe()
-	})
-
-	if err := goGroup.Wait(); err != nil {
-		log.Fatal(err)
-	}
+	// Launch the server
+	log.Fatal(server.ListenAndServe())
 }

@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/gin-contrib/cors v1.4.0
-	golang.org/x/sync v0.1.0
+	github.com/gin-contrib/static v0.0.1
 )
 
 require (
