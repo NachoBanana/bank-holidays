@@ -1,7 +1,7 @@
 <template>
   <ion-list>
     <ion-list-header>{{ store.getBankHolidays.display_name }}</ion-list-header>
-    <ion-row v-for="day in store.getBankHolidays.holidays" :key="day">
+    <ion-row v-for="day in store.getBankHolidays.holidays" :key="day.date">
       <ion-card>
         <ion-card-title>{{ day.name }}</ion-card-title>
         <ion-card-content> {{ day.date }} <br /> </ion-card-content>
