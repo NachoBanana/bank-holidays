@@ -13,18 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-      
-    - name: Install dependencies and build web app
-      run: |
-        cd app/
-        npm ci
-        npm run build-github-actions
-
     - name: Build server - docker image
       run: |
-        cd api/
         docker build -t app . -f Dockerfile.deploy 
