@@ -1,7 +1,4 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go
+name: nacho build
 
 on:
   push:
@@ -21,21 +18,13 @@ jobs:
       with:
         node-version: 16
       
-    - name: Install dependencies - npm
+    - name: Install dependencies and build web app
       run: |
         cd app/
         npm ci
-    
-    - name: Build web app
-      run: |
-        cd app/
-        npm run build
+        npm run build-github-actions
 
-    - name: Copy dist folder to server
-      run:  cp -r ./app/dist ./api/dist
-
-    - name: Build docker image
-      # uses: docker/setup-buildx-action@v2
+    - name: Build server - docker image
       run: |
         cd api/
         docker build -t app . -f Dockerfile.deploy 
