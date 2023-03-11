@@ -17,9 +17,10 @@
     </ion-content>
   </ion-page>
 </template>
-<script setup lang="ts">
+<script lang="ts">
 import CountrySelect from "@/components/CountrySelect.vue";
 import HolidayList from "@/components/HolidayList.vue";
+import { defineComponent } from "vue";
 import {
   IonContent,
   IonHeader,
@@ -27,6 +28,18 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
+
+export default defineComponent({
+  components: {
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    CountrySelect,
+    HolidayList
+  }
+});
 </script>
 
 
