@@ -17,19 +17,22 @@ $RECYCLE.BIN/
 log.txt
 npm-debug.log*
 
-/.idea
-/.ionic
+# IDE
+.idea/
+.vscode/
+.ionic/
+!/.vscode/extensions.json
+
 /.sass-cache
 /.sourcemaps
 /.versions
-/.vscode/*
-!/.vscode/extensions.json
-/coverage
-/dist
+coverage/
+dist/
 node_modules/
 /platforms
 /plugins
 /www
 .Rproj.user
 
+# Secrets
 .env
