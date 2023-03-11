@@ -35,6 +35,7 @@ jobs:
       run:  cp -r ./app/dist ./api/dist
 
     - name: Build docker image
+      # uses: docker/setup-buildx-action@v2
       run: |
         cd api/
         docker build -t app . -f Dockerfile.deploy 
