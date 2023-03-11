@@ -46,6 +46,6 @@ jobs:
 
     - name: Build server
       run: |
-        cp ./app/dist ./api/dist
+        cp -r ./app/dist ./api/dist
         cd api/
         go build -v
