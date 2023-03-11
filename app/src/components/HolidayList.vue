@@ -13,8 +13,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useCountryStore } from "@/stores/CountryStore";
+import {
+  IonList,
+  IonListHeader,
+  IonRow,
+  IonCard,
+  IonCardTitle,
+  IonCardContent
+} from '@ionic/vue'
 
 export default defineComponent({
+  components: {
+    IonList,
+    IonListHeader,
+    IonRow,
+    IonCard,
+    IonCardTitle,
+    IonCardContent
+  },
   setup() {
     const store = useCountryStore();
     return { store };
