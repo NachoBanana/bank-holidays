@@ -31,21 +31,10 @@ jobs:
         cd app/
         npm run build
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.19
+    - name: Copy dist folder to server
+      run:  cp -r ./app/dist ./api/dist
 
-    - name: Set gopath
-      run: export GOPATH=$(pwd)
-        
-    - name: Install dependencies
+    - name: Build docker image
       run: |
         cd api/
-        go mod download
-
-    - name: Build server
-      run: |
-        cp -r ./app/dist ./api/dist
-        cd api/
-        go build -v
+        docker build -t app . -f Dockerfile.deploy 
