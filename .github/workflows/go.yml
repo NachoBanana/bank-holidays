@@ -26,7 +26,7 @@ jobs:
         cd app/
         npm ci
     
-    - name: Build frontend
+    - name: Build web app
       run: |
         cd app/
         npm run build
@@ -44,7 +44,8 @@ jobs:
         cd api/
         go mod download
 
-    - name: Build
+    - name: Build server
       run: |
+        cp ./app/dist ./api/dist
         cd api/
         go build -v
