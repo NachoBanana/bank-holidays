@@ -20,6 +20,7 @@
 <script lang="ts">
 import CountrySelect from "@/components/CountrySelect.vue";
 import HolidayList from "@/components/HolidayList.vue";
+import { defineComponent } from "vue";
 import {
   IonContent,
   IonHeader,
@@ -28,19 +29,18 @@ import {
   IonToolbar
 } from "@ionic/vue";
 
-export default {
-  props: ['pageTitle', 'pageDefaultBackLink'],
+export default defineComponent({
   components: {
     IonContent,
     IonHeader,
     IonPage,
     IonTitle,
+    IonToolbar,
     CountrySelect,
     HolidayList
   }
-}
+});
 </script>
-
 
 <style scoped>
 #container {
@@ -85,5 +85,4 @@ export default {
   color: #df0f0f;
   background-color: aqua;
 }
-
 </style>

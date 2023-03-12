@@ -2,23 +2,23 @@
   <ion-page>
 
     <h1>
-      <br/>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
       Upcoming Bank Holidays in {{ store.getBankHolidays.display_name }}
     </h1>
 
-    <br/><br/><br/><br/><br/><br/>
+    <br /><br /><br /><br /><br /><br />
 
     <ion-list>
       <ion-list-header :fixed="true" class="ion-text-center">
       </ion-list-header>
-      
+
       <ion-grid :fixed="true" class="ion-text-center">
         <ion-row>
           <ion-col>
@@ -36,7 +36,7 @@
         </ion-row>
 
 
-        <ion-row v-for="day in store.getBankHolidays.holidays" :key="day">
+        <ion-row v-for="day in store.getBankHolidays.holidays" :key="day.name">
           <ion-col class="ion-text-wrap">
             <ion-text>
               {{ getDateShortFormatString(day.date) }}
@@ -52,47 +52,50 @@
             {{ getYearNumber(day.date) }}
           </ion-col>
         </ion-row>
-
       </ion-grid>
     </ion-list>
-
   </ion-page>
-
 </template>
-
-
-
 
 <script lang="ts">
 
 import { defineComponent } from "vue";
 import { useCountryStore } from "@/stores/CountryStore";
-import { IonGrid, IonCol, IonText } from "@ionic/vue";
+import { 
+  IonList,
+  IonListHeader, 
+  IonRow,  
+  IonGrid, 
+  IonCol, 
+  IonText } from "@ionic/vue";
 
 export default defineComponent({
+  components: {
+    IonList,
+    IonListHeader, 
+    IonRow, 
+    IonGrid, 
+    IonCol, 
+    IonText 
+  },
   setup() {
     const store = useCountryStore();
     return { store };
   },
-  components: {
-    IonGrid,
-    IonCol,
-    IonText
-  },
   computed: {
-    get2022Holidays: function() {
-      return this.store.getBankHolidays.holidays.filter(function(u) {
-        return(u.date.startsWith("2022"));
+    get2022Holidays: function () {
+      return this.store.getBankHolidays.holidays.filter(function (u) {
+        return (u.date.startsWith("2022"));
       })
     },
-    get2023Holidays: function() {
-      return this.store.getBankHolidays.holidays.filter(function(u) {
-        return(u.date.startsWith("2023"));
+    get2023Holidays: function () {
+      return this.store.getBankHolidays.holidays.filter(function (u) {
+        return (u.date.startsWith("2023"));
       })
     },
-    get2024Holidays: function() {
-      return this.store.getBankHolidays.holidays.filter(function(u) {
-        return(u.date.startsWith("2024"));
+    get2024Holidays: function () {
+      return this.store.getBankHolidays.holidays.filter(function (u) {
+        return (u.date.startsWith("2024"));
       })
     },
 
@@ -102,10 +105,10 @@ export default defineComponent({
       const day = new Date(date).getDay();
 
       let dayOfWeek = "";
-      switch(day) {
+      switch (day) {
         case 0: {
           dayOfWeek = "Sunday";
-          break; 
+          break;
         }
         case 1: {
           dayOfWeek = "Monday";
@@ -140,10 +143,10 @@ export default defineComponent({
       // const yearNumber = new Date(date).getFullYear();
 
       let monthName = "";
-      switch(monthNumber) {
+      switch (monthNumber) {
         case 0: {
           monthName = "January";
-          break; 
+          break;
         }
         case 1: {
           monthName = "Februrary";
@@ -196,7 +199,7 @@ export default defineComponent({
 
       return dateShortFormat;
     }
-    ,getYearNumber(date: string): string {
+    , getYearNumber(date: string): string {
       const yearNumber = new Date(date).getFullYear()
 
       const yearNumberAsString = `${yearNumber}`
@@ -209,10 +212,10 @@ export default defineComponent({
 
 
 <style scoped>
-  ion-col {
-    line-height: 1.25;
-    width: 100%;
-    margin-bottom: 20px;
-    border-spacing: 0;
-  }
+ion-col {
+  line-height: 1.25;
+  width: 100%;
+  margin-bottom: 20px;
+  border-spacing: 0;
+}
 </style>
