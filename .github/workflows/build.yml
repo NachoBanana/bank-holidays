@@ -25,6 +25,7 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           service_account: "github-action-592060311@nachobanana-d2b3a.iam.gserviceaccount.com"
+          credentials_json: "${{ secrets.CREDENTIALS_JSON }}"
 
       - name: Upload the application image to Container Registry
         run: gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
