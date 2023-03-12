@@ -31,7 +31,7 @@ export const useCountryStore = defineStore("CountryStore", {
                 const search = this.countries.filter((e) => e.display_name === country)[0].name;
                 const bh = await http(`http://localhost:8080/v1/countries/${search}`);
                 this.bankHolidays = bh;
-                this.bankHolidays.holidays = this.bankHolidays.holidays.sort((a, b) => {
+                this.bankHolidays.holidays.sort((a, b) => {
                     const aDate = new Date(a.date);
                     const bDate = new Date(b.date);
                     if (aDate < bDate) return -1;
