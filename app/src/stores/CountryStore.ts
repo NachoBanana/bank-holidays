@@ -38,7 +38,6 @@ export const useCountryStore = defineStore("CountryStore", {
                     if (aDate > bDate) return 1;
                     return 0;
                 });
-                this.bankHolidays.holidays.forEach(it => console.log(it))
             } catch (error) {
                 if (typeof error === "string") {
                     this.err = error;
