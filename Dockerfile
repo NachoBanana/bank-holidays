@@ -11,14 +11,13 @@ RUN npm run build
 # Build golang
 FROM golang:1.20-buster AS build_go
 
+ARG GIN_MODE=release
 WORKDIR /bank-holidays/api
-
-RUN mkdir /bank-holidays/app
 
 COPY ./api ./
 
 RUN go mod download
-RUN go build -o /bank-holiday-be
+RUN go build -v -o /bank-holidays
 
 # Deploy
 FROM gcr.io/distroless/base-debian11 AS deploy
@@ -26,9 +25,9 @@ FROM gcr.io/distroless/base-debian11 AS deploy
 WORKDIR /bank-holidays
 
 COPY --from=build_npm /bank-holidays/app/dist ./dist
-COPY --from=build_go /bank-holiday-be ./bank-holiday-be
+COPY --from=build_go /bank-holidays ./bank-holidays
 COPY --from=build_go /bank-holidays/api/data/holidays.json ./data/holidays.json
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/bank-holidays/bank-holiday-be"]
+ENTRYPOINT ["/bank-holidays/bank-holidays"]

@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/bank-holidays",
+        "run": {
+          "serviceId": "bank-holidays",
+          "region": "europe-west1"
+        }
+      }
+    ]
+  }
+}

@@ -2,17 +2,43 @@ name: nacho build
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - feature/github-actions-workflow-deployment
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: bank-holidays
+  PORT: 12309
+  PROJECT_ID: nachobanana-d2b3a
+  REGION: europe-west2-a
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Build server - docker image
-      run: |
-        docker build -t app . -f Dockerfile.deploy 
+      - name: Authenticate with Google Cloud Provider
+        uses: google-github-actions/auth@v3
+        with:
+          service_account: "github-action-592060311@nachobanana-d2b3a.iam.gserviceaccount.com"
+
+      - name: Upload the application image to Container Registry
+        run: gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
+
+      - name: Deploy the container image to Cloud Run
+        run: |
+          gcloud run deploy \
+            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
+            --region ${{ env.REGION }}
+            --port ${{ env.PORT }}
+
+      - name: Deploy the application
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_NACHOBANANA_D2B3A }}"
+          projectId: ${{ env.PROJECT_ID }}
