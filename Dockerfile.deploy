@@ -5,6 +5,7 @@ WORKDIR /bank-holidays/app
 
 COPY ./app /bank-holidays/app
 
+RUN npm ci
 RUN npm run build
 
 # Build golang
