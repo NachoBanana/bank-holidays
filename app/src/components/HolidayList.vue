@@ -10,7 +10,7 @@
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-      Upcoming Bank Holidays in {{ store.getBankHolidays.display_name }}
+      Upcoming Bank Holidays in {{ store.getDisplayName }}
     </h1>
 
     <br /><br /><br /><br /><br /><br />
@@ -88,7 +88,8 @@ export default defineComponent({
       return this.store.getDayOfWeek(new Date(date).getDay());
     },
     getDateShortFormatString(date: string): string {
-      return `${new Date(date).getDate()} ${this.store.getMonth(new Date(date).getMonth())}`;
+      const localDate = new Date(date);
+      return `${localDate.getDate()} ${this.store.getMonth(localDate.getMonth())}`;
     },
     getYearNumber(date: string): string {
       return new Date(date).getFullYear().toString();

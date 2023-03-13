@@ -60,7 +60,8 @@ export const useCountryStore = defineStore("CountryStore", {
         },
         getMonth: state => {
             return (month: number) => state.monthNames[month];
-        }
+        },
+        getDisplayName: state => state.bankHolidays.display_name
     }
 
 });
