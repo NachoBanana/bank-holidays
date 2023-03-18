@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: bank-holidays
   PORT: 12309
   PROJECT_ID: nachobanana-d2b3a
-  REGION: europe-west2-a
+  REGION: europe-west2
 
 jobs:
   build:
