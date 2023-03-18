@@ -17,16 +17,16 @@ WORKDIR /bank-holidays/api
 COPY ./api ./
 
 RUN go mod download
-RUN go build -v -o /bank-holidays
+RUN go build -v -o /bank-holidays/bank-holidays
 
 # Deploy
 FROM gcr.io/distroless/base-debian11 AS deploy
 
 WORKDIR /bank-holidays
 
-COPY --from=build_npm /bank-holidays/app/dist ./dist
-COPY --from=build_go /bank-holidays ./bank-holidays
-COPY --from=build_go /bank-holidays/api/data/holidays.json ./data/holidays.json
+COPY --from=build_npm --chown=nonroot:nonroot /bank-holidays/app/dist ./dist
+COPY --from=build_go --chown=nonroot:nonroot /bank-holidays ./bank-holidays
+COPY --from=build_go --chown=nonroot:nonroot /bank-holidays/api/data/holidays.json ./data/holidays.json
 
 USER nonroot:nonroot
 

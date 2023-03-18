@@ -21,6 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Add Vue.js environment variables
+        run: |
+          cat <<EOF> ./app/.env
+          VUE_APP_HOST_API=localhost
+          VUE_APP_PORT_API=${{ env.PORT }}
+          EOF
+
       - name: Authenticate with Google Cloud Provider
         uses: google-github-actions/auth@v1
         with:
