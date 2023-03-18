@@ -32,10 +32,11 @@ jobs:
 
       - name: Deploy the container image to Cloud Run
         run: |
-          gcloud run deploy \
-            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
-            --region ${{ env.REGION }}
-            --port ${{ env.PORT }}
+          gcloud run deploy ${{ env.IMAGE_NAME }} \
+            --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
+            --region=${{ env.REGION }} \
+            --port=${{ env.PORT }} \
+            --allow-unauthenticated
 
       - name: Deploy the application
         uses: FirebaseExtended/action-hosting-deploy@v0
