@@ -25,7 +25,7 @@ FROM gcr.io/distroless/base-debian11 AS deploy
 WORKDIR /bank-holidays
 
 COPY --from=build_npm --chown=nonroot:nonroot /bank-holidays/app/dist ./dist
-COPY --from=build_go --chown=nonroot:nonroot /bank-holidays ./bank-holidays
+COPY --from=build_go --chown=nonroot:nonroot /bank-holidays/bank-holidays ./bank-holidays
 COPY --from=build_go --chown=nonroot:nonroot /bank-holidays/api/data/holidays.json ./data/holidays.json
 
 USER nonroot:nonroot
