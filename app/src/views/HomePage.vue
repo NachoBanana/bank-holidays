@@ -8,7 +8,6 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <div id="container">
-        <strong>Upcoming Bank Holidays</strong>
         <p>
           <holiday-list />
         </p>
@@ -42,14 +41,10 @@ export default defineComponent({
 });
 </script>
 
+
 <style scoped>
 #container {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
 }
 
 #container strong {
@@ -84,4 +79,5 @@ export default defineComponent({
   color: #df0f0f;
   background-color: aqua;
 }
+
 </style>

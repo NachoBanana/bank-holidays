@@ -2,18 +2,9 @@
   <ion-page>
 
     <h1>
-      <br />
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-
-      Upcoming Bank Holidays in {{ store.getDisplayName }}
+      Upcoming Bank Holidays: {{ store.getDisplayName }}
     </h1>
 
-    <br /><br /><br /><br /><br /><br />
 
     <ion-list>
       <ion-list-header :fixed="true" class="ion-text-center">
@@ -101,7 +92,11 @@ export default defineComponent({
 ion-col {
   line-height: 1.25;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-spacing: 0;
+}
+h1 {
+  text-align: center;
+  padding: 50px;
 }
 </style>
