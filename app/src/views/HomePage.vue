@@ -1,15 +1,13 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header>
       <ion-toolbar>
         <ion-title>Bank Holiday App yo</ion-title>
         <CountrySelect />
       </ion-toolbar>
     </ion-header>
-
     <ion-content :fullscreen="true">
       <div id="container">
-        <strong>Upcoming Bank Holidays</strong>
         <p>
           <holiday-list />
         </p>
@@ -17,6 +15,7 @@
     </ion-content>
   </ion-page>
 </template>
+
 <script lang="ts">
 import CountrySelect from "@/components/CountrySelect.vue";
 import HolidayList from "@/components/HolidayList.vue";
@@ -26,7 +25,7 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar,
+  IonToolbar
 } from "@ionic/vue";
 
 export default defineComponent({
@@ -46,12 +45,6 @@ export default defineComponent({
 <style scoped>
 #container {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 #container strong {
@@ -86,4 +79,5 @@ export default defineComponent({
   color: #df0f0f;
   background-color: aqua;
 }
+
 </style>
