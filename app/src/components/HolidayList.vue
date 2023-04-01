@@ -6,6 +6,9 @@
     </h1>
 
 
+    
+    
+    <h2> This Year's Holidays - {{ currentDate.getFullYear() }} </h2>
     <ion-list>
       <ion-list-header :fixed="true" class="ion-text-center">
       </ion-list-header>
@@ -14,6 +17,130 @@
         <ion-row>
           <ion-col>
             <ion-title>Date</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Day of week</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Holiday</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Year</ion-title>
+          </ion-col>
+         </ion-row>
+          
+        <ion-row v-for="days, index_two in getBankHolidaysCurrentYear()" :key="index_two">
+          <ion-col class="ion-text-wrap">
+            <ion-text>
+              {{ getDateShortFormatString(days.date) }}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            {{ getDayOfWeekString(days.date) }}
+          </ion-col>
+          <ion-col class="ion-text-wrap">
+            {{ days.name }}
+          </ion-col>
+          <ion-col>
+            {{ getYearNumber(days.date) }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+    
+    
+    
+    <h2>Past Year's Holidays</h2>
+    
+    <ion-list>
+      <ion-list-header :fixed="true" class="ion-text-center">
+      </ion-list-header>
+      
+      <ion-grid :fixed="true" class="ion-text-center">
+        <ion-row>
+          <ion-col>
+            <ion-title>Date</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Day of week</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Holiday</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Year</ion-title>
+          </ion-col>
+        </ion-row>
+        
+        <ion-row v-for="days, index_two in getPastYearsBankHolidays()" :key="index_two">
+          <ion-col class="ion-text-wrap">
+            <ion-text>
+              {{ getDateShortFormatString(days.date) }}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            {{ getDayOfWeekString(days.date) }}
+          </ion-col>
+          <ion-col class="ion-text-wrap">
+            {{ days.name }}
+          </ion-col>
+          <ion-col>
+            {{ getYearNumber(days.date) }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+    
+    <h2>Future Year's Holidays</h2>
+    
+    <ion-list>
+      <ion-list-header :fixed="true" class="ion-text-center">
+      </ion-list-header>
+
+      <ion-grid :fixed="true" class="ion-text-center">
+        <ion-row>
+          <ion-col>
+            <ion-title>Date</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Day of week</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Holiday</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Year</ion-title>
+          </ion-col>
+         </ion-row>
+          
+        <ion-row v-for="days, index_two in getFutureYearsBankHolidays()" :key="index_two">
+          <ion-col class="ion-text-wrap">
+            <ion-text>
+              {{ getDateShortFormatString(days.date) }}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            {{ getDayOfWeekString(days.date) }}
+          </ion-col>
+          <ion-col class="ion-text-wrap">
+            {{ days.name }}
+          </ion-col>
+          <ion-col>
+            {{ getYearNumber(days.date) }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+    
+    <!-- <ion-list>
+      <ion-list-header :fixed="true" class="ion-text-center">
+      </ion-list-header>
+
+      <ion-grid :fixed="true" class="ion-text-center">
+        <ion-row>
+          <ion-col>
+            <ion-title>Date2</ion-title>
           </ion-col>
           <ion-col>
             <ion-title>Day of week</ion-title>
@@ -44,7 +171,10 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-list>
+    </ion-list> -->
+
+    
+
   </ion-page>
 </template>
 
@@ -60,6 +190,7 @@ import {
   IonCol,
   IonText
 } from "@ionic/vue";
+import { BankHolidays, IndividualHoliday } from "@/types";
 
 export default defineComponent({
   components: {
@@ -72,7 +203,9 @@ export default defineComponent({
   },
   setup() {
     const store = useCountryStore();
-    return { store };
+    const currentDate = new Date();
+
+    return { store, currentDate };
   },
   methods: {
     getDayOfWeekString(date: string): string {
@@ -84,8 +217,17 @@ export default defineComponent({
     },
     getYearNumber(date: string): string {
       return new Date(date).getFullYear().toString();
-    }
-  }
+    },
+    getBankHolidaysCurrentYear(): IndividualHoliday[] {
+      return this.store.bankHolidays?.holidays?.filter((holiday) => new Date(holiday.date).getFullYear() == this.currentDate.getFullYear())
+    },
+    getPastYearsBankHolidays(): IndividualHoliday[] {
+      return this.store.bankHolidays?.holidays?.filter((holiday) => new Date(holiday.date).getFullYear() < this.currentDate.getFullYear())
+    },
+    getFutureYearsBankHolidays(): IndividualHoliday[] {
+      return this.store.bankHolidays?.holidays?.filter((holiday) => new Date(holiday.date).getFullYear() > this.currentDate.getFullYear())
+    },
+  },
 });
 </script>
 <style scoped>

@@ -8,45 +8,47 @@ export const useCountryStore = defineStore("CountryStore", {
         loading: false,
         err: "",
         countries: [] as Country[],
-        dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        monthNames: ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"]
+        dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        monthNames: [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ]
     }),
     actions: {
         async fetchDataForCountryList() {
-            try {
-                this.loading = true;
-                this.countries = await http("http://localhost:8080/v1/countries");
-            } catch (error) {
-                if (typeof error === "string") {
-                    this.err = error;
-                } else if (error instanceof Error) {
-                    this.err = error.message;
-                }
-            }
+            this.loading = true;
+            this.countries = await http("http://localhost:8080/v1/countries")
+                .then((item) => item)
+                .catch((error) => {
+                    if (typeof error === "string") {
+                        this.err = error;
+                    } else if (error instanceof Error) {
+                        this.err = error.message;
+                    }
+                });
         },
         async updateBankHolidays(country: string) {
-            try {
-                this.loading = true;
-                const search = this.countries.filter((e) => e.display_name === country)[0].name;
-                const bh = await http(`http://localhost:8080/v1/countries/${search}`);
-                this.bankHolidays = bh;
-                this.bankHolidays.holidays.sort((a, b) => {
-                    const aDate = new Date(a.date);
-                    const bDate = new Date(b.date);
-                    if (aDate < bDate) return -1;
-                    if (aDate > bDate) return 1;
-                    return 0;
-                });
-            } catch (error) {
-                if (typeof error === "string") {
-                    this.err = error;
-                } else if (error instanceof Error) {
-                    this.err = error.message;
-                }
-            } finally {
-                this.loading = false;
-            }
+            this.loading = true;
+            const search = this.countries.filter((e) => e.display_name === country)[0].name;
+            await http(`http://localhost:8080/v1/countries/${search}`)
+                .then((item: BankHolidays) => {
+                    item.holidays = item.holidays.sort((a, b) => {
+                        const aDate = new Date(a.date);
+                        const bDate = new Date(b.date);
+                        if (aDate < bDate) return -1;
+                        if (aDate > bDate) return 1;
+                        return 0;
+                    });
+                    this.bankHolidays = item;
+                })
+                .catch((error) => {
+                    if (typeof error === "string") {
+                        this.err = error;
+                    } else if (error instanceof Error) {
+                        this.err = error.message;
+                    }
+                })
+                .finally(() => { this.loading = false });
         }
     },
     getters: {
@@ -61,7 +63,11 @@ export const useCountryStore = defineStore("CountryStore", {
         getMonth: state => {
             return (month: number) => state.monthNames[month];
         },
-        getDisplayName: state => state.bankHolidays.display_name
+        getDisplayName: state => state.bankHolidays.display_name,
+        get2023HolidayList: state => state.bankHolidays?.holidays?.filter(function (u: any) {
+            console.log(u)
+            return (u.date.startsWith("2023"))
+        }),
     }
 
 });
