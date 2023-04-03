@@ -11,7 +11,7 @@ on:
 
 env:
   IMAGE_NAME: bank-holidays
-  PORT: 12309
+  PORT: 8080
   PROJECT_ID: nachobanana-d2b3a
   REGION: europe-west2
 
@@ -23,10 +23,9 @@ jobs:
 
       - name: Add Vue.js environment variables
         run: |
-          cat <<EOF> ./app/.env
-          VUE_APP_HOST_API=localhost
-          VUE_APP_PORT_API=${{ env.PORT }}
-          EOF
+          environment="VUE_APP_HOST_API=localhost\n"
+          environment+="VUE_APP_PORT_API=${{ env.PORT }}"
+          echo "${environment}" > ./app/.env
 
       - name: Authenticate with Google Cloud Provider
         uses: google-github-actions/auth@v1
@@ -51,3 +50,4 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_NACHOBANANA_D2B3A }}"
           projectId: ${{ env.PROJECT_ID }}
+          channelId: live
