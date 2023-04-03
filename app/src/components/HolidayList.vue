@@ -1,10 +1,10 @@
 <template>
   <ion-page>
     <h1>
-      Upcoming Bank Holidays: {{ store.getDisplayName }}
+      Upcoming bank holidays in {{ store.getDisplayName }}
     </h1>
 
-    <h2> This Year's Holidays - {{ currentDate.getFullYear() }} </h2>
+    <h2> {{ currentDate.getFullYear() }} </h2>
     <ion-list>
       <ion-list-header :fixed="true" class="ion-text-center">
       </ion-list-header>
@@ -19,9 +19,6 @@
           </ion-col>
           <ion-col>
             <ion-title>Holiday</ion-title>
-          </ion-col>
-          <ion-col>
-            <ion-title>Year</ion-title>
           </ion-col>
         </ion-row>
 
@@ -37,14 +34,11 @@
           <ion-col class="ion-text-wrap">
             {{ days.name }}
           </ion-col>
-          <ion-col>
-            {{ getYearNumber(days.date) }}
-          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-list>
 
-    <h2>Past Year's Holidays</h2>
+    <h2> {{ currentDate.getFullYear() +1 }}</h2>
     <ion-list>
       <ion-list-header :fixed="true" class="ion-text-center">
       </ion-list-header>
@@ -59,49 +53,6 @@
           </ion-col>
           <ion-col>
             <ion-title>Holiday</ion-title>
-          </ion-col>
-          <ion-col>
-            <ion-title>Year</ion-title>
-          </ion-col>
-        </ion-row>
-
-        <ion-row v-for="days, index_two in getPastYearsBankHolidays()" :key="index_two">
-          <ion-col class="ion-text-wrap">
-            <ion-text>
-              {{ getDateShortFormatString(days.date) }}
-            </ion-text>
-          </ion-col>
-          <ion-col>
-            {{ getDayOfWeekString(days.date) }}
-          </ion-col>
-          <ion-col class="ion-text-wrap">
-            {{ days.name }}
-          </ion-col>
-          <ion-col>
-            {{ getYearNumber(days.date) }}
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
-
-    <h2>Future Year's Holidays</h2>
-    <ion-list>
-      <ion-list-header :fixed="true" class="ion-text-center">
-      </ion-list-header>
-
-      <ion-grid :fixed="true" class="ion-text-center">
-        <ion-row>
-          <ion-col>
-            <ion-title>Date</ion-title>
-          </ion-col>
-          <ion-col>
-            <ion-title>Day of week</ion-title>
-          </ion-col>
-          <ion-col>
-            <ion-title>Holiday</ion-title>
-          </ion-col>
-          <ion-col>
-            <ion-title>Year</ion-title>
           </ion-col>
         </ion-row>
 
@@ -117,8 +68,44 @@
           <ion-col class="ion-text-wrap">
             {{ days.name }}
           </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+
+    <h1>
+      Past bank holidays in {{ store.getDisplayName }}
+    </h1>
+
+    <h2>{{ currentDate.getFullYear() -1 }}</h2>
+    <ion-list>
+      <ion-list-header :fixed="true" class="ion-text-center">
+      </ion-list-header>
+
+      <ion-grid :fixed="true" class="ion-text-center">
+        <ion-row>
           <ion-col>
-            {{ getYearNumber(days.date) }}
+            <ion-title>Date</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Day of week</ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title>Holiday</ion-title>
+          </ion-col>
+        </ion-row>
+
+        <ion-row v-for="days, index_two in getPastYearsBankHolidays()" :key="index_two">
+          <ion-col class="ion-text-wrap">
+            <ion-text>
+              {{ getDateShortFormatString(days.date) }}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            {{ getDayOfWeekString(days.date) }}
+          </ion-col>
+          <ion-col class="ion-text-wrap">
+            {{ days.name }}
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -194,13 +181,14 @@ export default defineComponent({
 <style scoped>
 ion-col {
   line-height: 1.25;
-  width: 100%;
+  width: 50%;
   margin-bottom: 10px;
   border-spacing: 0;
 }
 
 h1 {
   text-align: center;
+  margin-top: 30px;
   padding: 50px;
 }
 </style>
