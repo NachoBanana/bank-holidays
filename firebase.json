@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "api/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -11,7 +11,7 @@
         "source": "/bank-holidays",
         "run": {
           "serviceId": "bank-holidays",
-          "region": "europe-west1"
+          "region": "europe-west2"
         }
       }
     ]
