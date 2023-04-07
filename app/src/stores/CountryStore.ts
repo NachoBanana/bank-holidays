@@ -1,10 +1,6 @@
-import { http } from "@/api";
-import { BankHolidays, Country } from "@/types/index";
 import { defineStore } from "pinia";
-
-const HOST_API = process.env.VUE_APP_HOST_API || "localhost";
-const PORT_API = process.env.VUE_APP_PORT_API || 8080;
-const API_ADDRESS = `http://${HOST_API}:${PORT_API}/v1`;
+import { API_ADDRESS, http } from "@/api";
+import { BankHolidays, Country } from "@/types/index";
 
 export const useCountryStore = defineStore("CountryStore", {
     state: () => ({
