@@ -48,6 +48,13 @@ jobs:
             --port=${{ env.PORT }} \
             --allow-unauthenticated
 
+      - name: Build frontend for Firebase
+        working-directory: ./app
+        run: |
+          npm ci
+          npm run build
+          mv ./dist ../api/dist
+
       - name: Deploy the application
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
