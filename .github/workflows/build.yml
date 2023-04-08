@@ -25,28 +25,42 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Add Vue.js environment variables
-        run: |
-          environment="VUE_APP_HOST_API=localhost\n"
-          environment+="VUE_APP_PORT_API=${{ env.PORT }}"
-          echo "${environment}" > ./app/.env
-
       - name: Authenticate with Google Cloud Provider
         uses: google-github-actions/auth@v1
         with:
           service_account: "github-actions@nachobanana-d2b3a.iam.gserviceaccount.com"
           credentials_json: "${{ secrets.CREDENTIALS_JSON }}"
 
+      - name: Check whether deployment already exists
+        run: |
+          [[ $(gcloud run services describe ${{ env.IMAGE_NAME }} --region=${{ env.REGION }}) ]] \
+            && echo "DEPLOYMENT_EXISTS=true" >> ${GITHUB_ENV} \
+            || echo "DEPLOYMENT_EXISTS=false" >> ${GITHUB_ENV}
+
       - name: Upload the application image to Container Registry
+        if: ${{ env.DEPLOYMENT_EXISTS }} == false
         run: gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
 
       - name: Deploy the container image to Cloud Run
+        if: ${{ env.DEPLOYMENT_EXISTS }} == false
         run: |
           gcloud run deploy ${{ env.IMAGE_NAME }} \
             --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
             --region=${{ env.REGION }} \
             --port=${{ env.PORT }} \
             --allow-unauthenticated
+
+      - name: Change the `VUE_APP_HOST_API` and re-submit the image
+        run: |
+          APPLICATION_URL=$(
+            gcloud run services describe ${{ env.IMAGE_NAME }} \
+              --region=${{ env.REGION }} \
+              --format="value(status.url)"
+          )
+          environment="VUE_APP_HOST_API=${APPLICATION_URL}\n"
+          environment+="VUE_APP_PORT_API=443"
+          echo "${environment}" > ./app/.env
+          gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
 
       - name: Build frontend for Firebase
         working-directory: ./app
