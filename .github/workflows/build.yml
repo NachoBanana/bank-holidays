@@ -38,11 +38,11 @@ jobs:
             || echo "DEPLOYMENT_EXISTS=false" >> ${GITHUB_ENV}
 
       - name: Upload the application image to Container Registry
-        if: ${{ env.DEPLOYMENT_EXISTS }} == "false"
+        if: env.DEPLOYMENT_EXISTS == "false"
         run: gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
 
       - name: Deploy the container image to Cloud Run
-        if: ${{ env.DEPLOYMENT_EXISTS }} == "false"
+        if: env.DEPLOYMENT_EXISTS == "false"
         run: |
           gcloud run deploy ${{ env.IMAGE_NAME }} \
             --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
@@ -62,6 +62,14 @@ jobs:
           echo "${environment}" > ./app/.env
           gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
 
+      - name: Deploy the updated container image to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.IMAGE_NAME }} \
+            --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
+            --region=${{ env.REGION }} \
+            --port=${{ env.PORT }} \
+            --allow-unauthenticated
+
       - name: Build frontend for Firebase
         working-directory: ./app
         run: |
@@ -69,7 +77,7 @@ jobs:
           npm run build
           mv ./dist ../api/dist
 
-      - name: Deploy the application
+      - name: Deploy the frontend to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
