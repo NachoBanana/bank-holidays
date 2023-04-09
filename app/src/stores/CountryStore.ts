@@ -1,6 +1,6 @@
-import { http } from "@/api";
-import { BankHolidays, Country } from "@/types/index";
 import { defineStore } from "pinia";
+import { API_ADDRESS, http } from "@/api";
+import { BankHolidays, Country } from "@/types/index";
 
 export const useCountryStore = defineStore("CountryStore", {
     state: () => ({
@@ -16,7 +16,7 @@ export const useCountryStore = defineStore("CountryStore", {
         async fetchDataForCountryList() {
             try {
                 this.loading = true;
-                this.countries = await http("http://localhost:8080/v1/countries");
+                this.countries = await http(`${API_ADDRESS}/countries`);
             } catch (error) {
                 if (typeof error === "string") {
                     this.err = error;
@@ -29,7 +29,7 @@ export const useCountryStore = defineStore("CountryStore", {
             try {
                 this.loading = true;
                 const search = this.countries.filter((e) => e.display_name === country)[0].name;
-                const bh = await http(`http://localhost:8080/v1/countries/${search}`);
+                const bh = await http(`${API_ADDRESS}/countries/${search}`);
                 this.bankHolidays = bh;
                 this.bankHolidays.holidays.sort((a, b) => {
                     const aDate = new Date(a.date);
