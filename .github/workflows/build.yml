@@ -57,9 +57,8 @@ jobs:
               --region=${{ env.REGION }} \
               --format="value(status.url)"
           )
-          environment="VUE_APP_HOST_API=${APPLICATION_URL}\n"
-          environment+="VUE_APP_PORT_API=443"
-          echo "${environment}" > ./app/.env
+          echo "VUE_APP_HOST_API=${APPLICATION_URL}" > ./app/.env
+          echo "VUE_APP_PORT_API=443" >> ./app/.env
           gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
 
       - name: Deploy the updated container image to Cloud Run
