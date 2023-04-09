@@ -32,11 +32,9 @@ jobs:
           credentials_json: "${{ secrets.CREDENTIALS_JSON }}"
 
       - name: Upload the application image to Container Registry
-        if: ${{ env.DEPLOYMENT_EXISTS == 'false' }}
         run: gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
 
       - name: Deploy the container image to Cloud Run
-        if: ${{ env.DEPLOYMENT_EXISTS == 'false' }}
         run: |
           gcloud run deploy ${{ env.IMAGE_NAME }} \
             --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
