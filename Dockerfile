@@ -20,7 +20,8 @@ RUN go mod download
 RUN go build -v -o /bank-holidays/bank-holidays
 
 # Deploy
-FROM gcr.io/distroless/base-debian11 AS deploy
+# FROM gcr.io/distroless/base-debian11 AS deploy
+FROM debian:stable-slim AS deploy
 
 WORKDIR /bank-holidays
 
@@ -30,4 +31,5 @@ COPY --from=build_go --chown=nonroot:nonroot /bank-holidays/api/data/holidays.js
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/bank-holidays/bank-holidays"]
+# ENTRYPOINT ["/bank-holidays/bank-holidays"]
+CMD ["/bank-holidays/bank-holidays"]
