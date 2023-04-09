@@ -2,10 +2,7 @@ module github.com/NachoBanana/bank-holiday-backend-go
 
 go 1.20
 
-require (
-	github.com/gin-contrib/cors v1.4.0
-	github.com/gin-contrib/static v0.0.1
-)
+require github.com/gin-contrib/cors v1.4.0
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect

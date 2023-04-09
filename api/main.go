@@ -10,22 +10,17 @@ import (
 
 	endpoints "github.com/NachoBanana/bank-holiday-backend-go/cmd"
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
-
-const FRONTEND_DIR string = "./dist"
 
 func main() {
 	var PORT uint16 = getPort()
 
 	router := gin.Default()
 	defaultCors := cors.Default()
-	staticMiddleware := static.Serve("/", static.LocalFile(FRONTEND_DIR, true))
 
 	// Mount middleware
 	router.Use(defaultCors)
-	router.Use(staticMiddleware)
 
 	// Group endpoints
 	baseGroup := router.Group("/v1/")

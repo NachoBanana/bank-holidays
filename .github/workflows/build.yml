@@ -31,12 +31,6 @@ jobs:
           service_account: "github-actions@nachobanana-d2b3a.iam.gserviceaccount.com"
           credentials_json: "${{ secrets.CREDENTIALS_JSON }}"
 
-      - name: Check whether deployment already exists
-        run: |
-          [[ $(gcloud run services describe ${{ env.IMAGE_NAME }} --region=${{ env.REGION }}) ]] \
-            && echo "DEPLOYMENT_EXISTS=true" >> ${GITHUB_ENV} \
-            || echo "DEPLOYMENT_EXISTS=false" >> ${GITHUB_ENV}
-
       - name: Upload the application image to Container Registry
         if: ${{ env.DEPLOYMENT_EXISTS == 'false' }}
         run: gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
@@ -50,31 +44,18 @@ jobs:
             --port=${{ env.PORT }} \
             --allow-unauthenticated
 
-      - name: Change the `VUE_APP_HOST_API` and re-submit the image
+      - name: Build frontend for Firebase
+        working-directory: ./app
         run: |
           APPLICATION_URL=$(
             gcloud run services describe ${{ env.IMAGE_NAME }} \
               --region=${{ env.REGION }} \
               --format="value(status.url)"
           )
-          echo "VUE_APP_HOST_API=${APPLICATION_URL}" > ./app/.env
-          echo "VUE_APP_PORT_API=443" >> ./app/.env
-          gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
-
-      - name: Deploy the updated container image to Cloud Run
-        run: |
-          gcloud run deploy ${{ env.IMAGE_NAME }} \
-            --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
-            --region=${{ env.REGION }} \
-            --port=${{ env.PORT }} \
-            --allow-unauthenticated
-
-      - name: Build frontend for Firebase
-        working-directory: ./app
-        run: |
+          echo "VUE_APP_HOST_API=${APPLICATION_URL}" > ./.env
+          echo "VUE_APP_PORT_API=443" >> ./.env
           npm ci
           npm run build
-          mv ./dist ../api/dist
 
       - name: Deploy the frontend to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
