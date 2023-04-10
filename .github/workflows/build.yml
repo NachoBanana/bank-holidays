@@ -22,7 +22,7 @@ jobs:
       - name: Authenticate with Google Cloud Provider
         uses: google-github-actions/auth@v1
         with:
-          service_account: "github-actions@nachobanana-d2b3a.iam.gserviceaccount.com"
+          service_account: "github-actions@${{ vars.PROJECT_ID }}.iam.gserviceaccount.com"
           credentials_json: "${{ secrets.CREDENTIALS_JSON }}"
 
       - name: Upload the application image to Container Registry
