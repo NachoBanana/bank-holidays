@@ -26,23 +26,23 @@ jobs:
           credentials_json: "${{ secrets.CREDENTIALS_JSON }}"
 
       - name: Upload the application image to Container Registry
-        run: gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}
+        run: gcloud builds submit --tag gcr.io/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}
 
       - name: Deploy the container image to Cloud Run
         run: |
-          gcloud run deploy ${{ env.IMAGE_NAME }} \
-            --image=gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }} \
-            --region=${{ env.REGION }} \
-            --port=${{ env.PORT }} \
+          gcloud run deploy ${{ vars.IMAGE_NAME }} \
+            --image=gcr.io/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }} \
+            --region=${{ vars.REGION }} \
+            --port=${{ vars.PORT }} \
             --allow-unauthenticated \
-            --set-env-vars="FRONTEND_URL=https://${{ env.PROJECT_ID }}.web.app"
+            --set-env-vars="FRONTEND_URL=https://${{ vars.PROJECT_ID }}.web.app"
 
       - name: Build frontend for Firebase
         working-directory: ./app
         run: |
           APPLICATION_URL=$(
-            gcloud run services describe ${{ env.IMAGE_NAME }} \
-              --region=${{ env.REGION }} \
+            gcloud run services describe ${{ vars.IMAGE_NAME }} \
+              --region=${{ vars.REGION }} \
               --format="value(status.url)"
           )
           echo "VUE_APP_HOST_API=${APPLICATION_URL}" > ./.env
@@ -55,5 +55,5 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_NACHOBANANA_D2B3A }}"
-          projectId: ${{ env.PROJECT_ID }}
+          projectId: ${{ vars.PROJECT_ID }}
           channelId: live
