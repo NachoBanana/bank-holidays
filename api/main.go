@@ -15,12 +15,18 @@ import (
 
 func main() {
 	var PORT uint16 = getPort()
+	var FRONTEND_URL string = os.Getenv("FRONTEND_URL")
 
 	router := gin.Default()
-	defaultCors := cors.Default()
+	customCors := cors.New(cors.Config{
+		AllowOrigins:     []string{FRONTEND_URL},
+		AllowMethods:     []string{"GET"},
+		AllowHeaders:     []string{"Content-Type"},
+		AllowCredentials: true,
+	})
 
 	// Mount middleware
-	router.Use(defaultCors)
+	router.Use(customCors)
 
 	// Group endpoints
 	baseGroup := router.Group("/v1/")
