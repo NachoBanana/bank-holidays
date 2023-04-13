@@ -62,9 +62,8 @@ export const useCountryStore = defineStore("CountryStore", {
             return (month: number) => state.monthNames[month];
         },
         getDisplayName: state => state.bankHolidays.display_name,
-        get2023HolidayList: state => state.bankHolidays?.holidays?.filter(function (u: any) {
-            console.log(u)
-            return (u.date.startsWith("2023"))
+        get2023HolidayList: state => state.bankHolidays?.holidays?.filter(function (thisHoliday: any) {
+            return (thisHoliday.date.startsWith("2023"))
         }),
         getBankHolidaysGroupedByYear: state => {
             const groupedHolidays = new Map<number, IndividualHoliday[]>();

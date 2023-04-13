@@ -22,7 +22,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row v-for="days, index_two in getBankHolidaysCurrentYear()" :key="index_two">
+        <ion-row v-for="days, index in getBankHolidaysCurrentYear()" :key="index">
           <ion-col class="ion-text-wrap">
             <ion-text>
               {{ getDateShortFormatString(days.date) }}
@@ -56,7 +56,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row v-for="days, index_two in getFutureYearsBankHolidays()" :key="index_two">
+        <ion-row v-for="days, index in getFutureYearsBankHolidays()" :key="index">
           <ion-col class="ion-text-wrap">
             <ion-text>
               {{ getDateShortFormatString(days.date) }}
@@ -95,7 +95,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row v-for="days, index_two in getPastYearsBankHolidays()" :key="index_two">
+        <ion-row v-for="days, index in getPastYearsBankHolidays()" :key="index">
           <ion-col class="ion-text-wrap">
             <ion-text>
               {{ getDateShortFormatString(days.date) }}
