@@ -1,6 +1,6 @@
-import { http } from "@/api";
 import { BankHolidays, Country, IndividualHoliday } from "@/types/index";
 import { defineStore } from "pinia";
+import { API_ADDRESS, http } from "@/api";
 
 export const useCountryStore = defineStore("CountryStore", {
     state: () => ({
@@ -8,47 +8,45 @@ export const useCountryStore = defineStore("CountryStore", {
         loading: false,
         err: "",
         countries: [] as Country[],
-        dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        monthNames: [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ],
+        dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        monthNames: ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"]
     }),
     actions: {
         async fetchDataForCountryList() {
-            this.loading = true;
-            this.countries = await http("http://localhost:8080/v1/countries")
-                .then((item) => item)
-                .catch((error) => {
-                    if (typeof error === "string") {
-                        this.err = error;
-                    } else if (error instanceof Error) {
-                        this.err = error.message;
-                    }
-                });
+            try {
+                this.loading = true;
+                this.countries = await http(`${API_ADDRESS}/countries`);
+            } catch (error) {
+                if (typeof error === "string") {
+                    this.err = error;
+                } else if (error instanceof Error) {
+                    this.err = error.message;
+                }
+            }
         },
         async updateBankHolidays(country: string) {
-            this.loading = true;
-            const search = this.countries.filter((e) => e.display_name === country)[0].name;
-            await http(`http://localhost:8080/v1/countries/${search}`)
-                .then((item: BankHolidays) => {
-                    item.holidays = item.holidays.sort((a, b) => {
-                        const aDate = new Date(a.date);
-                        const bDate = new Date(b.date);
-                        if (aDate < bDate) return -1;
-                        if (aDate > bDate) return 1;
-                        return 0;
-                    });
-                    this.bankHolidays = item;
-                })
-                .catch((error) => {
-                    if (typeof error === "string") {
-                        this.err = error;
-                    } else if (error instanceof Error) {
-                        this.err = error.message;
-                    }
-                })
-                .finally(() => { this.loading = false });
+            try {
+                this.loading = true;
+                const search = this.countries.filter((e) => e.display_name === country)[0].name;
+                const bh = await http(`${API_ADDRESS}/countries/${search}`);
+                this.bankHolidays = bh;
+                this.bankHolidays.holidays.sort((a, b) => {
+                    const aDate = new Date(a.date);
+                    const bDate = new Date(b.date);
+                    if (aDate < bDate) return -1;
+                    if (aDate > bDate) return 1;
+                    return 0;
+                });
+            } catch (error) {
+                if (typeof error === "string") {
+                    this.err = error;
+                } else if (error instanceof Error) {
+                    this.err = error.message;
+                }
+            } finally {
+                this.loading = false;
+            }
         }
     },
     getters: {

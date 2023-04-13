@@ -1,18 +1,59 @@
 name: nacho build
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: Log level
+        default: info
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Build server - docker image
-      run: |
-        docker build -t app . -f Dockerfile.deploy 
+      - name: Authenticate with Google Cloud Provider
+        uses: google-github-actions/auth@v1
+        with:
+          service_account: "github-actions@${{ vars.PROJECT_ID }}.iam.gserviceaccount.com"
+          credentials_json: "${{ secrets.CREDENTIALS_JSON }}"
+
+      - name: Upload the application image to Container Registry
+        run: gcloud builds submit --tag gcr.io/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}
+
+      - name: Deploy the container image to Cloud Run
+        run: |
+          gcloud run deploy ${{ vars.IMAGE_NAME }} \
+            --image=gcr.io/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }} \
+            --region=${{ vars.REGION }} \
+            --port=${{ vars.PORT }} \
+            --allow-unauthenticated \
+            --set-env-vars="FRONTEND_URL=https://${{ vars.PROJECT_ID }}.web.app"
+
+      - name: Build frontend for Firebase
+        working-directory: ./app
+        run: |
+          APPLICATION_URL=$(
+            gcloud run services describe ${{ vars.IMAGE_NAME }} \
+              --region=${{ vars.REGION }} \
+              --format="value(status.url)"
+          )
+          echo "VUE_APP_HOST_API=${APPLICATION_URL}" > ./.env
+          echo "VUE_APP_PORT_API=443" >> ./.env
+          npm ci
+          npm run build
+
+      - name: Deploy the frontend to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_NACHOBANANA_D2B3A }}"
+          projectId: ${{ vars.PROJECT_ID }}
+          channelId: live
