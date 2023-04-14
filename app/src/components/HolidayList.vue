@@ -15,9 +15,6 @@
             <ion-title>Date</ion-title>
           </ion-col>
           <ion-col>
-            <ion-title>Day of week</ion-title>
-          </ion-col>
-          <ion-col>
             <ion-title>Holiday</ion-title>
           </ion-col>
         </ion-row>
@@ -27,9 +24,6 @@
             <ion-text>
               {{ getDateShortFormatString(days.date) }}
             </ion-text>
-          </ion-col>
-          <ion-col>
-            {{ getDayOfWeekString(days.date) }}
           </ion-col>
           <ion-col class="ion-text-wrap">
             {{ days.name }}
@@ -49,9 +43,6 @@
             <ion-title>Date</ion-title>
           </ion-col>
           <ion-col>
-            <ion-title>Day of week</ion-title>
-          </ion-col>
-          <ion-col>
             <ion-title>Holiday</ion-title>
           </ion-col>
         </ion-row>
@@ -61,9 +52,6 @@
             <ion-text>
               {{ getDateShortFormatString(days.date) }}
             </ion-text>
-          </ion-col>
-          <ion-col>
-            {{ getDayOfWeekString(days.date) }}
           </ion-col>
           <ion-col class="ion-text-wrap">
             {{ days.name }}
@@ -88,9 +76,6 @@
             <ion-title>Date</ion-title>
           </ion-col>
           <ion-col>
-            <ion-title>Day of week</ion-title>
-          </ion-col>
-          <ion-col>
             <ion-title>Holiday</ion-title>
           </ion-col>
         </ion-row>
@@ -100,9 +85,6 @@
             <ion-text>
               {{ getDateShortFormatString(days.date) }}
             </ion-text>
-          </ion-col>
-          <ion-col>
-            {{ getDayOfWeekString(days.date) }}
           </ion-col>
           <ion-col class="ion-text-wrap">
             {{ days.name }}
@@ -148,7 +130,7 @@ export default defineComponent({
     },
     getDateShortFormatString(date: string): string {
       const localDate = new Date(date);
-      return `${localDate.getDate()} ${this.store.getMonth(localDate.getMonth())}`;
+      return `${this.store.getDayOfWeek(new Date(date).getDay())} ${localDate.getDate()} ${this.store.getMonth(localDate.getMonth())}`;
     },
     getYearNumber(date: string): string {
       return new Date(date).getFullYear().toString();
@@ -163,7 +145,6 @@ export default defineComponent({
           holidays.push(...element[1]);
         }
       }
-    
       return holidays
     },
     getFutureYearsBankHolidays(): IndividualHoliday[] {
@@ -173,8 +154,8 @@ export default defineComponent({
           holidays.push(...element[1]);
         }
       }
-    
-      return holidays    },
+      return holidays
+    },
   }
 });
 </script>
