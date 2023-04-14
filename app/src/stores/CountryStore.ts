@@ -1,6 +1,6 @@
+import { BankHolidays, Country, IndividualHoliday } from "@/types/index";
 import { defineStore } from "pinia";
 import { API_ADDRESS, http } from "@/api";
-import { BankHolidays, Country } from "@/types/index";
 
 export const useCountryStore = defineStore("CountryStore", {
     state: () => ({
@@ -61,7 +61,21 @@ export const useCountryStore = defineStore("CountryStore", {
         getMonth: state => {
             return (month: number) => state.monthNames[month];
         },
-        getDisplayName: state => state.bankHolidays.display_name
+        getDisplayName: state => state.bankHolidays.display_name,
+        get2023HolidayList: state => state.bankHolidays?.holidays?.filter(function (thisHoliday: any) {
+            return (thisHoliday.date.startsWith("2023"))
+        }),
+        getBankHolidaysGroupedByYear: state => {
+            const groupedHolidays = new Map<number, IndividualHoliday[]>();
+            state.bankHolidays?.holidays?.forEach((holiday) => {
+              const year = new Date(holiday.date).getFullYear();
+              const currentGroupedHoliday = groupedHolidays.get(year);
+              currentGroupedHoliday?.push(holiday);
+              groupedHolidays.set(year, currentGroupedHoliday || [holiday]);
+            });
+      
+            return groupedHolidays;
+          },
     }
 
 });

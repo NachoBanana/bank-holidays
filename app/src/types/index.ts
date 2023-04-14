@@ -1,3 +1,3 @@
-import { BankHolidays, Country } from "./BankHoliday"
+import { BankHolidays, Country, IndividualHoliday } from "./BankHoliday"
 
-export { BankHolidays, Country }
+export { BankHolidays, Country, IndividualHoliday }

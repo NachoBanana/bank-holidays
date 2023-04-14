@@ -31,6 +31,8 @@ const app = createApp(App)
   .use(router)
   .use(pinia);
 
-router.isReady().then(() => {
-  app.mount('#app');
-});
+router.isReady()
+  .then(() => {
+    app.mount('#app');
+  })
+  .catch((error) => console.error(error));
