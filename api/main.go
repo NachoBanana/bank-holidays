@@ -15,11 +15,12 @@ import (
 
 func main() {
 	var PORT uint16 = getPort()
-	var FRONTEND_URL string = os.Getenv("FRONTEND_URL")
+	var ALLOWED_ORIGINS []string = getAllowedOrigins()
 
 	router := gin.Default()
 	customCors := cors.New(cors.Config{
-		AllowOrigins:     []string{FRONTEND_URL},
+		AllowOrigins:     ALLOWED_ORIGINS,
+		AllowWildcard:    true,
 		AllowMethods:     []string{"GET"},
 		AllowHeaders:     []string{"Content-Type"},
 		AllowCredentials: true,
@@ -59,4 +60,16 @@ func getPort() uint16 {
 	}
 
 	return port
+}
+
+func getAllowedOrigins() []string {
+	var allowedOrigins []string
+
+	if frontendUrl := os.Getenv("FRONTEND_URL"); frontendUrl != "" {
+		allowedOrigins = append(allowedOrigins, frontendUrl)
+	} else {
+		allowedOrigins = append(allowedOrigins, "http://localhost:*")
+	}
+
+	return allowedOrigins
 }
